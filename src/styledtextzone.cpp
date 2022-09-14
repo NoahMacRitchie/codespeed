@@ -31,13 +31,12 @@ void StyledTextZone::setText(QString& text) {
 
 void StyledTextZone::onUserTyped() {
 	styledText_->setText(text_ + "\nUserTyped:" + tZone_->toPlainText());
-	QString uText_ = tZone_->toPlainText();
-	int uTextLen_ = uText_.length();
-	QChar topItem_ = textToType_.top();
+	QString uText = tZone_->toPlainText();
+	int uTextLen = uText.length();
 	if (!textToType_.isEmpty()) {
-		if (uText_[uTextLen_-1] != textToType_.top()) {
+		if (uText[uTextLen-1] != textToType_.top()) {
 			styledText_->setStyleSheet("QLabel { background-color : red; color : blue; }");
-			badChars_.push(uText_[uTextLen_ - 1]);
+			badChars_.push(uText[uTextLen - 1]);
 		}
 		else {
 			styledText_->setStyleSheet("QLabel { }");
