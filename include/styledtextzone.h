@@ -2,6 +2,8 @@
 #define STYLEDTEXTZONE_H
 #include <qmainwindow.h>
 #include <qplaintextedit.h>
+#include <QStack>
+
 class QString;
 class QLabel;
 class TypingZone;
@@ -18,6 +20,8 @@ signals:
 public slots:
     void onUserTyped();
 private:
+    QStack<QChar> textToType_;
+    QStack<QChar> badChars_;
     QString text_;
     QLabel* styledText_ = nullptr;
     TypingZone* tZone_ = nullptr;

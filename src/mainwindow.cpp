@@ -5,6 +5,7 @@
 #include "qlabel.h"
 #include "typingzone.h"
 #include "styledtextzone.h"
+#include <QElapsedTimer>
 
 MainWindow::MainWindow()
 {
@@ -17,12 +18,14 @@ MainWindow::MainWindow()
     
     auto typingZone = new TypingZone(wid);
     auto styledTextZone = new StyledTextZone(wid, *typingZone);
+
   
 
     QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone, &StyledTextZone::onUserTyped);
     QObject::connect(styledTextZone, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
 
-    QString text("thisIsSomeCode(); \nEvenMoreCode(\"here\");");
+
+    QString text("ABCDEFGH");
     
     layout->addWidget(styledTextZone);
     layout->addWidget(typingZone);
