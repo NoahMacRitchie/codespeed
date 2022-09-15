@@ -17,9 +17,14 @@ public:
     QString getText() const;
 signals:
     void onNewText();
+    void badCharsChanged(bool badCharsExist);
+    void finished();
+
 public slots:
     void onUserTyped();
+    void removeBadChar();
 private:
+    void updateStyle();
     QStack<QChar> textToType_;
     QStack<QChar> badChars_;
     QString text_;

@@ -24,7 +24,9 @@ MainWindow::MainWindow()
     QString text("ABCDEFGH");
     QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone, &StyledTextZone::onUserTyped);
     QObject::connect(styledTextZone, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
-    
+    QObject::connect(typingZone, &TypingZone::removeBadChar, styledTextZone, &StyledTextZone::removeBadChar);
+    QObject::connect(styledTextZone, &StyledTextZone::badCharsChanged, typingZone, &TypingZone::onBadCharsChanged);
+    QObject::connect(styledTextZone, &StyledTextZone::finished, timer, &Timer::stopTimer);
     layout->addWidget(timer);
     layout->addWidget(styledTextZone);
     layout->addWidget(typingZone);

@@ -14,6 +14,7 @@ public:
     Timer(QWidget* parent);
 public slots:
     void startTimer();
+    void stopTimer();
     void updateLabel();
 private:
     QTimer* timer_ = nullptr;
