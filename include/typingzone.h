@@ -9,7 +9,16 @@ class TypingZone : public QPlainTextEdit
 
 public:
     TypingZone(QWidget* parent);
+    void deleteLastChar();
+signals:
+    void removeBadChar();
+protected:
+    void keyPressEvent(QKeyEvent* e) override;
 public slots:
     void onNewText();
+    void onBadCharsChanged(bool badCharsExist);
+    
+private: 
+    bool allowBackspace_ = false;
 };
 #endif 
