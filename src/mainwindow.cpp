@@ -6,6 +6,7 @@
 #include "typingzone.h"
 #include "styledtextzone.h"
 #include <QElapsedTimer>
+#include "timer.h"
 
 MainWindow::MainWindow()
 {
@@ -18,19 +19,18 @@ MainWindow::MainWindow()
     
     auto typingZone = new TypingZone(wid);
     auto styledTextZone = new StyledTextZone(wid, *typingZone);
-
+    Timer* timer = new Timer(this);
   
-
+    QString text("ABCDEFGH");
     QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone, &StyledTextZone::onUserTyped);
     QObject::connect(styledTextZone, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
-
-
-    QString text("ABCDEFGH");
     
+    layout->addWidget(timer);
     layout->addWidget(styledTextZone);
     layout->addWidget(typingZone);
     wid->setLayout(layout);
     styledTextZone->setText(text);
+    QObject::connect(typingZone, &TypingZone::textChanged, timer, &Timer::startTimer);
     setCentralWidget(wid);
 }
  
