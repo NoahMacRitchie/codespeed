@@ -62,10 +62,17 @@ void StyledTextZone::removeBadChar() {
 }
 
 void StyledTextZone::updateStyle() {
-	if (badChars_.isEmpty()) {
-		styledText_->setStyleSheet("QLabel { }");
-	}
-	else {
-		styledText_->setStyleSheet("QLabel { background-color : red; color : blue; }");
-	}
+
+    styledText_->setStyleSheet("QLabel b { background-color : green; }");
+
+	const int numCorrectChars = text_.length() - textToType_.size();
+	const int numBadChars = badChars_.size();
+	const int numChars = text_.length();
+
+	QString correctText = text_.first(numCorrectChars);
+	QString badText = (text_.first(numBadChars + numCorrectChars)).last(numBadChars);
+	QString normalText = text_.last(numChars - (numCorrectChars + numBadChars));
+	QString coloredText = "<span style=\"background-color:green;\">" + correctText + "</span>" + "<span style=\"background-color:red;\">" + badText + "</span>" + normalText;
+
+	styledText_->setText(coloredText);
 }
