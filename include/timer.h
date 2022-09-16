@@ -16,6 +16,8 @@ public slots:
     void startTimer();
     void stopTimer();
     void updateLabel();
+signals:
+    void timeStopped(int timeScore);
 private:
     QTimer* timer_ = nullptr;
     QLabel* timerLabel_ = nullptr;

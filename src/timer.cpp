@@ -26,10 +26,14 @@ void Timer::startTimer() {
 
 void Timer::stopTimer() {
 	timer_->stop();
+	emit timeStopped(msPassed_);
 }
 
 void Timer::updateLabel() {
 	msPassed_ += TIMER_MS_UPDATE_INTERVAL;
 	timerLabel_->setText("Time Elapsed (ms): " + QString::number(msPassed_));
 }
+
+
+
  
