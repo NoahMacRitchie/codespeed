@@ -3,17 +3,17 @@
 #include <qmainwindow.h>
 #include <qplaintextedit.h>
 #include <QStack>
+#include <qlabel.h>
 
 class QString;
-class QLabel;
 class TypingZone;
-class StyledTextZone : public QWidget
+class StyledTextZone : public QLabel
 {
     Q_OBJECT
 
 public:
     StyledTextZone(QWidget* parent, TypingZone& tZone);
-    void setText(QString& text);
+    void setNewText(QString& text);
     QString getText() const;
 signals:
     void onNewText();
@@ -24,11 +24,11 @@ public slots:
     void onUserTyped();
     void removeBadChar();
 private:
+    void changeNewLineToBr(QString& str);
     void updateStyle();
     QStack<QChar> textToType_;
     QStack<QChar> badChars_;
-    QString text_;
-    QLabel* styledText_ = nullptr;
+    QString masterText_;
     TypingZone* tZone_ = nullptr;
 
 };

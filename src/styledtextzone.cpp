@@ -6,21 +6,17 @@
 #include <QVBoxLayout>
 #include <QElapsedTimer>
 
-StyledTextZone::StyledTextZone(QWidget* parent, TypingZone& tZone) : QWidget(parent), tZone_(&tZone), styledText_(new QLabel(this))
+StyledTextZone::StyledTextZone(QWidget* parent, TypingZone& tZone) : QLabel(parent), tZone_(&tZone)
 {
-	auto lay = new QVBoxLayout(this);
-	lay->addWidget(styledText_);
-
-	setLayout(lay);
 };
 
 QString StyledTextZone::getText() const{
-	return text_;
+	return masterText_;
 }
 
-void StyledTextZone::setText(QString& text) {
-	text_ = text;
-	styledText_->setText(text);
+void StyledTextZone::setNewText(QString& text) {
+	masterText_ = text;
+	QLabel::setText(text);
 	
 	QString reversedText = text;
 	std::reverse(reversedText.begin(), reversedText.end());
@@ -61,18 +57,28 @@ void StyledTextZone::removeBadChar() {
 	emit badCharsChanged(!badChars_.isEmpty());
 }
 
+void StyledTextZone::changeNewLineToBr(QString& str) {
+	str.replace("\n", "<div></div>");
+}
 void StyledTextZone::updateStyle() {
 
-    styledText_->setStyleSheet("QLabel b { background-color : green; }");
+    setStyleSheet("QLabel b { background-color : green; }");
 
-	const int numCorrectChars = text_.length() - textToType_.size();
+	const int numCorrectChars = masterText_.length() - textToType_.size();
 	const int numBadChars = badChars_.size();
-	const int numChars = text_.length();
+	const int numChars = masterText_.length();
 
-	QString correctText = text_.first(numCorrectChars);
-	QString badText = (text_.first(numBadChars + numCorrectChars)).last(numBadChars);
-	QString normalText = text_.last(numChars - (numCorrectChars + numBadChars));
-	QString coloredText = "<span style=\"background-color:green;\">" + correctText + "</span>" + "<span style=\"background-color:red;\">" + badText + "</span>" + normalText;
+	QString correctText = masterText_.first(numCorrectChars);
+	QString badText = (masterText_.first(numBadChars + numCorrectChars)).last(numBadChars);
+	QString normalText = masterText_.last(numChars - (numCorrectChars + numBadChars));
 
-	styledText_->setText(coloredText);
+	changeNewLineToBr(correctText);
+	changeNewLineToBr(badText);
+	changeNewLineToBr(normalText);
+	//TODO: Get tab working. Right now a tab will be assumed to be 4 spaces and there is a weird visual bug when typing the spaces 
+	QString coloredText = "<pre style=\"display: inline;\"><span style=\"background-color: rgba(76,175,80,.3);\">" + correctText + "</span>" + "<span style=\"background-color:rgba(255,82,82, 0.3);\">" + badText + "</span>" + normalText+"</pre>";
+
+	setText(coloredText);
 }
+
+
