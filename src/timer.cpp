@@ -31,7 +31,8 @@ void Timer::stopTimer() {
 
 void Timer::updateLabel() {
 	msPassed_ += TIMER_MS_UPDATE_INTERVAL;
-	timerLabel_->setText("Time Elapsed (ms): " + QString::number(msPassed_));
+	float timeSec = static_cast<float>(msPassed_) / 1000;
+	timerLabel_->setText("Time Elapsed (s): " + QString::number(timeSec));
 }
 
 

@@ -8,5 +8,8 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
+    
+private: 
+    void setStyles();
 };
 #endif // MAINWINDOW_H
