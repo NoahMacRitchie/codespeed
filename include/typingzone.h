@@ -14,6 +14,7 @@ signals:
     void removeBadChar();
 protected:
     void keyPressEvent(QKeyEvent* e) override;
+    void mousePressEvent(QMouseEvent* e) override;
 public slots:
     void onNewText();
     void onBadCharsChanged(bool badCharsExist);

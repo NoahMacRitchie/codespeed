@@ -24,12 +24,8 @@ public slots:
     void onUserTyped();
     void removeBadChar();
 private:
-    struct SmartChar {
-        QChar char_;
-        int pos_;
-    };
     void updateStyle();
-    QStack<SmartChar> textToType_;
+    QStack<QChar> textToType_;
     QStack<QChar> badChars_;
     QString masterText_;
     TypingZone* tZone_ = nullptr;
