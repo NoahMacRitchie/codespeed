@@ -1,9 +1,11 @@
+// Local Includes
 #include "mainwindow.h"
-#include "qlabel.h"
-#include "styledtextzone.h"
-#include <qstring.h>
 #include "typingzone.h"
+#include "styledtextzone.h"
+
+// Qt Includes
 #include <QVBoxLayout>
+#include <QLabel>
 #include <QElapsedTimer>
 
 StyledTextZone::StyledTextZone(QWidget* parent, TypingZone& tZone) : QLabel(parent), tZone_(&tZone)

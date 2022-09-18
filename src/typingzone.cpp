@@ -1,3 +1,4 @@
+// Local Includes
 #include "typingZone.h"
 
 TypingZone::TypingZone(QWidget* parent) : QPlainTextEdit(parent)
@@ -42,4 +43,4 @@ void TypingZone::keyPressEvent(QKeyEvent* e)
 }
 
 void TypingZone::mousePressEvent(QMouseEvent* e)
-{} // Disables all mouse clicks
+{} 
