@@ -19,7 +19,8 @@ QString StyledTextZone::getText() const{
 void StyledTextZone::setNewText(QString& text) {
 	masterText_ = text;
 	QLabel::setText(text);
-	
+	textToType_.clear();
+	badChars_.clear();
 	QString reversedText = text;
 	std::reverse(reversedText.begin(), reversedText.end());
 	for (const QChar& c: reversedText) {

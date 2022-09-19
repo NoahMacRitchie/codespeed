@@ -21,26 +21,26 @@ TypingPage::TypingPage(QWidget* parent) : QWidget(parent)
     QWidget* mainContentWid = new QWidget(this);
 
     auto typingZone = new TypingZone(this);
-    auto styledTextZone = new StyledTextZone(this, *typingZone);
+    styledTextZone_ = new StyledTextZone(this, *typingZone);
 
-    mainContentLay->addWidget(styledTextZone);
+    mainContentLay->addWidget(styledTextZone_);
     mainContentLay->addWidget(typingZone);
     mainContentWid->setLayout(mainContentLay);
-    Timer* timer = new Timer(this);
+    timer_ = new Timer(this);
     auto score = new Results(this);
 
-    QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone, &StyledTextZone::onUserTyped);
-    QObject::connect(styledTextZone, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
-    QObject::connect(typingZone, &TypingZone::removeBadChar, styledTextZone, &StyledTextZone::removeBadChar);
-    QObject::connect(styledTextZone, &StyledTextZone::badCharsChanged, typingZone, &TypingZone::onBadCharsChanged);
-    QObject::connect(styledTextZone, &StyledTextZone::finished, timer, &Timer::stopTimer);
-    QObject::connect(timer, &Timer::timeStopped, score, &Results::saveResults);
-    QObject::connect(typingZone, &TypingZone::textChanged, timer, &Timer::startTimer);
-    typingScreenLay->addWidget(timer);
+    QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone_, &StyledTextZone::onUserTyped);
+    QObject::connect(styledTextZone_, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
+    QObject::connect(typingZone, &TypingZone::removeBadChar, styledTextZone_, &StyledTextZone::removeBadChar);
+    QObject::connect(styledTextZone_, &StyledTextZone::badCharsChanged, typingZone, &TypingZone::onBadCharsChanged);
+    QObject::connect(styledTextZone_, &StyledTextZone::finished, timer_, &Timer::stopTimer);
+    QObject::connect(timer_, &Timer::timeStopped, score, &Results::saveResults);
+    QObject::connect(typingZone, &TypingZone::textChanged, timer_, &Timer::startTimer);
+    typingScreenLay->addWidget(timer_);
     typingScreenLay->addWidget(mainContentWid);
 
     QString text("while(true){\n    useCodeSpeed()\n}");
-    styledTextZone->setNewText(text);
+    styledTextZone_->setNewText(text);
     
 
     setLayout(typingScreenLay);
@@ -48,4 +48,8 @@ TypingPage::TypingPage(QWidget* parent) : QWidget(parent)
 
 void TypingPage::reset()
 {
+    QString text("while(true){\n    useCodeSpeed()\n}");
+    timer_->reset();
+    styledTextZone_->setNewText(text);
+    
 }
