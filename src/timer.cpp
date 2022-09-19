@@ -31,11 +31,12 @@ void Timer::stopTimer() {
 
 void Timer::updateLabel() {
 	msPassed_ += TIMER_MS_UPDATE_INTERVAL;
-	float timeSec = static_cast<float>(msPassed_) / 1000;
+	float timeSec = msPassed_ < 10 ? 0 : static_cast<float>(msPassed_) / 1000;
 	timerLabel_->setText("Time Elapsed (s): " + QString::number(timeSec));
 }
 
 void Timer::reset() {
+	timerIsRunning_ = false;
 	timer_->stop();
 	msPassed_ = 0;
 	updateLabel();

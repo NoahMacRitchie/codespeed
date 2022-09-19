@@ -49,7 +49,7 @@ TypingPage::TypingPage(QWidget* parent) : QWidget(parent)
 void TypingPage::reset()
 {
     QString text("while(true){\n    useCodeSpeed()\n}");
-    timer_->reset();
     styledTextZone_->setNewText(text);
-    
+
+    timer_->reset();
 }
