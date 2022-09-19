@@ -33,7 +33,7 @@ void StyledTextZone::onUserTyped() {
 
 	int uTextLen = uText.length();
 	if (!textToType_.isEmpty()) {
-		if (uText.at(uTextLen-1) != textToType_.top()) {
+		if ((uText.at(uTextLen-1) != textToType_.top()) || !badChars_.isEmpty()) {
 			badChars_.push(uText.at(uTextLen-1));
 			emit badCharsChanged(!badChars_.isEmpty());
 			updateStyle();
@@ -57,9 +57,6 @@ void StyledTextZone::removeBadChar() {
 	emit badCharsChanged(!badChars_.isEmpty());
 }
 
-void StyledTextZone::changeNewLineToBr(QString& str) {
-	str.replace("\n", "<div></div>");
-}
 void StyledTextZone::updateStyle() {
 
     setStyleSheet("QLabel b { background-color : green; }");
@@ -72,11 +69,8 @@ void StyledTextZone::updateStyle() {
 	QString badText = (masterText_.first(numBadChars + numCorrectChars)).last(numBadChars);
 	QString normalText = masterText_.last(numChars - (numCorrectChars + numBadChars));
 
-	changeNewLineToBr(correctText);
-	changeNewLineToBr(badText);
-	changeNewLineToBr(normalText);
-	//TODO: Get tab working. Right now a tab will be assumed to be 4 spaces and there is a weird visual bug when typing the spaces 
-	QString coloredText = "<pre style=\"display: inline;\"><span style=\"background-color: rgba(76,175,80,.3);\">" + correctText + "</span>" + "<span style=\"background-color:rgba(255,82,82, 0.3);\">" + badText + "</span>" + normalText+"</pre>";
+	// This white - space: pre styling is magic and makes sure everything looks right
+	QString coloredText = "<span style=\"white-space: pre;\"><span style=\"background-color: rgba(76,175,80,0.5);\" line-height=\"300\">" + correctText + "</span>" + "<span style=\"background-color:rgba(255,82,82, 0.5);\">" + badText + "</span>" + normalText + "</span>";
 
 	setText(coloredText);
 }

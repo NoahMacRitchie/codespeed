@@ -2,7 +2,7 @@
 
 TypingZone::TypingZone(QWidget* parent) : QPlainTextEdit(parent)
 {
-
+	setUndoRedoEnabled(false);
 
 }
 void TypingZone::onBadCharsChanged(bool badCharsExist)
@@ -21,14 +21,25 @@ void TypingZone::deleteLastChar() {
 }
 void TypingZone::keyPressEvent(QKeyEvent* e)
 {
-	if (e->key() == Qt::Key_Backspace) {
-		
-		if (allowBackspace_) {
-			deleteLastChar();
-			emit removeBadChar();
-		}
-	}
-	else {
-		QPlainTextEdit::keyPressEvent(e);
+	auto key = e->key();
+	switch (key) {
+		case(Qt::Key_Backspace):
+			if (allowBackspace_) {
+				deleteLastChar();
+				emit removeBadChar();
+				break;
+			}
+		case(Qt::Key_Up):
+		case(Qt::Key_Down):
+		case(Qt::Key_Left):
+		case(Qt::Key_Right):
+		case(Qt::CTRL):
+		case(Qt::Key_Control):
+			break;
+		default:
+			QPlainTextEdit::keyPressEvent(e);
 	}
 }
+
+void TypingZone::mousePressEvent(QMouseEvent* e)
+{} // Disables all mouse clicks
