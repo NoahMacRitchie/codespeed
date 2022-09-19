@@ -14,6 +14,8 @@ signals:
     void removeBadChar();
 protected:
     void keyPressEvent(QKeyEvent* e) override;
+
+    // Disables all mouse clicks
     void mousePressEvent(QMouseEvent* e) override;
 public slots:
     void onNewText();

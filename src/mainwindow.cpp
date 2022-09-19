@@ -1,15 +1,52 @@
+// Local Includes
 #include "mainwindow.h"
-#include "qplaintextedit.h"
-#include "QToolBar.h"
-#include <QVBoxLayout>
-#include "qlabel.h"
-#include "typingzone.h"
-#include "styledtextzone.h"
-#include "results.h"
-#include <QElapsedTimer>
-#include "timer.h"
-#include <QFont>
+#include "typingpage.h"
+#include "startpage.h"
+#include "actions.h"
+
+// QT Inlcudes
+#include <QToolBar>
 #include <QApplication>
+#include <QFont>
+#include <QStackedWidget>
+
+MainWindow::MainWindow()
+{
+    setStyles();
+    createToolBar();
+
+    mainFrameStack_ = new QStackedWidget(this);
+
+    typingPage_ = new TypingPage(this);
+    startPage_ = new StartPage(this);
+
+    mainFrameStack_->addWidget(startPage_);
+    mainFrameStack_->addWidget(typingPage_);
+    
+    setCentralWidget(mainFrameStack_);
+}
+
+void MainWindow::navToStart()
+{
+    mainFrameStack_->setCurrentWidget(startPage_);
+}
+
+void MainWindow::navToCode()
+{
+    mainFrameStack_->setCurrentWidget(typingPage_);
+    typingPage_->reset();
+}
+ 
+
+void MainWindow::createToolBar() {
+    auto* toolBar = new QToolBar;
+    addToolBar(toolBar);
+
+    auto navStartAction = new NavStartPageAction(*this, this);
+    auto navCodeAction = new NavCodePageAction(*this, this);
+    toolBar->addAction(navStartAction);
+    toolBar->addAction(navCodeAction);
+}
 
 void MainWindow::setStyles() {
     QFont font("Consolas");
@@ -20,45 +57,7 @@ void MainWindow::setStyles() {
         "StyledTextZone, TypingZone{background-color: #1a1e1e; border: 1px solid #A5C9CA; border-radius: 5px;  margin-bottom: 0.75em; padding: 0.5em 0.75em;}"
         "*{color: #E7F6F2}"
         "Timer QLabel{color: #A5C9CA}"
-        "pre{white-space: normal; font-family: Consolas;}");
+        "pre{white-space: normal; font-family: Consolas;}"
+        "QIcon{width: 100px; height: 100px; margin: 10px}"
+    );
 }
-
-MainWindow::MainWindow()
-{
-    setStyles();
-    auto* ToolBar = new QToolBar;
-    addToolBar(ToolBar);
-
-    auto typingScreenLay = new QVBoxLayout(this);
-
-    auto mainContentLay = new QVBoxLayout(this);
-
-    QWidget* typingScreenWid = new QWidget(this);
-    QWidget* mainContentWid = new QWidget(typingScreenWid);
-
-    auto typingZone = new TypingZone(typingScreenWid);
-    auto styledTextZone = new StyledTextZone(typingScreenWid, *typingZone);
-
-    mainContentLay->addWidget(styledTextZone);
-    mainContentLay->addWidget(typingZone);
-    mainContentWid->setLayout(mainContentLay);
-    Timer* timer = new Timer(this);
-    auto score = new Results(typingScreenWid);
-
-    QObject::connect(typingZone, &TypingZone::textChanged, styledTextZone, &StyledTextZone::onUserTyped);
-    QObject::connect(styledTextZone, &StyledTextZone::onNewText, typingZone, &TypingZone::onNewText);
-    QObject::connect(typingZone, &TypingZone::removeBadChar, styledTextZone, &StyledTextZone::removeBadChar);
-    QObject::connect(styledTextZone, &StyledTextZone::badCharsChanged, typingZone, &TypingZone::onBadCharsChanged);
-    QObject::connect(styledTextZone, &StyledTextZone::finished, timer, &Timer::stopTimer);
-    QObject::connect(timer, &Timer::timeStopped, score, &Results::saveResults);
-
-    typingScreenLay->addWidget(timer);
-    typingScreenLay->addWidget(mainContentWid);
-    typingScreenWid->setLayout(typingScreenLay);
-    QString text("while(true){\n    useCodeSpeed()\n}");
-    styledTextZone->setNewText(text);
-    QObject::connect(typingZone, &TypingZone::textChanged, timer, &Timer::startTimer);
-
-    setCentralWidget(typingScreenWid);
-}
- 

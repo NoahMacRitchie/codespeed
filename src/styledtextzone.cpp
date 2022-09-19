@@ -1,9 +1,11 @@
+// Local Includes
 #include "mainwindow.h"
-#include "qlabel.h"
-#include "styledtextzone.h"
-#include <qstring.h>
 #include "typingzone.h"
+#include "styledtextzone.h"
+
+// Qt Includes
 #include <QVBoxLayout>
+#include <QLabel>
 #include <QElapsedTimer>
 
 StyledTextZone::StyledTextZone(QWidget* parent, TypingZone& tZone) : QLabel(parent), tZone_(&tZone)
@@ -17,7 +19,8 @@ QString StyledTextZone::getText() const{
 void StyledTextZone::setNewText(QString& text) {
 	masterText_ = text;
 	QLabel::setText(text);
-	
+	textToType_.clear();
+	badChars_.clear();
 	QString reversedText = text;
 	std::reverse(reversedText.begin(), reversedText.end());
 	for (const QChar& c: reversedText) {

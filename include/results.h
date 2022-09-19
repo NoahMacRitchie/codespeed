@@ -13,7 +13,8 @@
 
 class QJsonDocument;
 class QJsonObject;
-//Will get called at end of game to store date, score, language, mistakes
+
+// Will get called at end of game to store date, score, language, mistakes
 class Results : public QWidget{
 public:
 	Results(QWidget* parent);

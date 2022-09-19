@@ -35,6 +35,12 @@ void Timer::updateLabel() {
 	timerLabel_->setText("Time Elapsed (s): " + QString::number(timeSec));
 }
 
+void Timer::reset() {
+	timer_->stop();
+	msPassed_ = 0;
+	updateLabel();
+}
+
 
 
  

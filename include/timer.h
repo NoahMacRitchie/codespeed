@@ -16,6 +16,7 @@ public slots:
     void startTimer();
     void stopTimer();
     void updateLabel();
+    void reset();
 signals:
     void timeStopped(int timeScore);
 private:
