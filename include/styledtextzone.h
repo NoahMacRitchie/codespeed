@@ -15,6 +15,8 @@ public:
     StyledTextZone(QWidget* parent, TypingZone& tZone);
     void setNewText(QString& text);
     QString getText() const;
+    QList<QChar> getMistakeChars() {return mistakeChars_;}
+
 signals:
     void onNewText();
     void badCharsChanged(bool badCharsExist);
@@ -29,6 +31,7 @@ private:
     QStack<QChar> badChars_;
     QString masterText_;
     TypingZone* tZone_ = nullptr;
+    QList<QChar> mistakeChars_;
 
     
 
