@@ -12,6 +12,7 @@ class Timer : public QWidget
 
 public:
     Timer(QWidget* parent);
+    int getTime() {return msPassed_;}
 public slots:
     void startTimer();
     void stopTimer();

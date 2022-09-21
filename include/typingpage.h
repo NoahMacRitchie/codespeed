@@ -13,6 +13,8 @@ public:
 
     void reset();
 public slots:
+    void storeData();
+
 signals:
 private:
     Timer* timer_ = nullptr;

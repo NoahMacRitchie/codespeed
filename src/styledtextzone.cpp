@@ -21,12 +21,12 @@ void StyledTextZone::setNewText(QString& text) {
 	QLabel::setText(text);
 	textToType_.clear();
 	badChars_.clear();
+	mistakeChars_.clear();
 	QString reversedText = text;
 	std::reverse(reversedText.begin(), reversedText.end());
 	for (const QChar& c: reversedText) {
 		textToType_.push(c);
 	}
-
 	emit onNewText();
 }
 
@@ -53,8 +53,9 @@ void StyledTextZone::onUserTyped() {
 
 void StyledTextZone::removeBadChar() {
 	if (badChars_.isEmpty()) return;
-	badChars_.pop();
-
+	auto c = badChars_.pop();
+	if (badChars_.isEmpty())
+		mistakeChars_.append(c);
 	updateStyle();
 
 	emit badCharsChanged(!badChars_.isEmpty());

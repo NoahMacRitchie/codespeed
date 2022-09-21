@@ -6,25 +6,50 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QFile>
-
-Results::Results(QWidget* parent) : QWidget(parent){
-	//TODO : Make this a singleton class
-}
-
 void Results::displayResults() {
 
 }
-void Results::saveResults(int timeMs) {
+
+bool Results::saveResults(ResultsData rd) {
 	QFile file;
-	finishTime_ = timeMs;
-	file.setFileName("./results/score.json");
-	file.open(QIODevice::ReadWrite | QIODevice::Text);
-	timeScore_.insert("Time", finishTime_);
-	languageType_.insert("Language", language_);
-	mainObject_.insert("Time Scores", timeScore_);
-	mainObject_.insert("Language", languageType_);
-	jsonDoc_.setObject(mainObject_);
-	file.write(jsonDoc_.toJson());
+	QDate date;
+
+	date = date.currentDate();
+	file.setFileName("./score.json");
+
+	QJsonDocument jsonDoc;
+	QJsonObject mainObject;
+	QJsonObject timeScore;
+	QJsonObject languageType;
+	QJsonObject resultDate;
+	QJsonObject mistakes;
+	QJsonArray array;
+
+	timeScore.insert("Time", rd.finishTime_);
+	languageType.insert("Language", rd.language_);
+	resultDate.insert("Date", date.toString("dd.MM.yyyy"));
+	mistakes.insert("Mistake", array);
+	mainObject.insert("Mistakes", mistakes);
+	mainObject.insert("resultDate", resultDate);
+	mainObject.insert("Time Scores", timeScore);
+	mainObject.insert("Language", languageType);
+	jsonDoc.setObject(mainObject);
+
+	for (int i = 0; i < (rd.mistakeChars_.length()-1);i++) {
+		array.append(rd.mistakeChars_[i].toLatin1());
+	}
+
+	if (!file.open(QIODevice::ReadOnly)){return false;}
+
+	QJsonDocument data = QJsonDocument::fromJson(file.readAll());
+	file.close();
+
+	QJsonArray arrLog = data.array();
+	arrLog.push_back(mainObject);
+	QJsonDocument doc(arrLog);
+	
+	if (!file.open(QIODevice::WriteOnly)) {return false;}
+
+	file.write(doc.toJson());
 	file.close();
 }
-	
