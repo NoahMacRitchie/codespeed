@@ -86,6 +86,7 @@ void MainWindow::setStyles() {
        "pre{white-space: normal; font-family: Consolas;}"
        "QToolButton {margin: 8px}"
        "QToolBar{border-bottom: 1px solid "+ COLOR_DARK_BORDER +"; background-color:" + COLOR_BACKGROUND_LIGHTER + ";}"
+        "TypingPage QPushButton{background-color: " +COLOR_BACKGROUND +"; font-weight: bold;}"
         "MainWindow {border-image: url(\"../res/img/dope_blob.svg\") 0 0 0 0 stretch stretch;}" // this border-image thing is magic :) https://forum.qt.io/topic/40151/solved-scaled-background-image-using-stylesheet/3
     );
 }
