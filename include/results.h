@@ -14,20 +14,16 @@
 class QJsonDocument;
 class QJsonObject;
 
+struct ResultsData {
+	QString language_;
+	int finishTime_ = 0;
+	QList <QChar> mistakeChars_;
+};
 // Will get called at end of game to store date, score, language, mistakes
 class Results : public QWidget{
 public:
-	Results(QWidget* parent);
 	void displayResults();
+	static bool saveResults(ResultsData);
 	
-private:
-	int finishTime_ = 0;
-	QString language_ = "C++";
-	QJsonObject mainObject_;
-	QJsonObject timeScore_;
-	QJsonObject languageType_;
-	QJsonDocument jsonDoc_;
-public slots:
-	void saveResults(int timeMs);
 };
 #endif 
