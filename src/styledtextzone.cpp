@@ -61,9 +61,6 @@ void StyledTextZone::removeBadChar() {
 }
 
 void StyledTextZone::updateStyle() {
-
-    setStyleSheet("QLabel b { background-color : green; }");
-
 	const int numCorrectChars = masterText_.length() - textToType_.size();
 	const int numBadChars = badChars_.size();
 	const int numChars = masterText_.length();

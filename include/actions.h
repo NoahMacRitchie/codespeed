@@ -20,9 +20,21 @@ class NavCodePageAction : public QAction
     Q_OBJECT
 public:
     NavCodePageAction(MainWindow& mainWindow, QWidget* parent);
+public slots:
 private:
     MainWindow* mainWindow_;
 private slots:
     void navToCode();
+};
+class NavStatsPageAction : public QAction
+{
+    Q_OBJECT
+public:
+    NavStatsPageAction(MainWindow& mainWindow, QWidget* parent);
+public slots:
+private:
+    MainWindow* mainWindow_;
+private slots:
+    void navToStats();
 };
 #endif 
