@@ -1,6 +1,6 @@
 // Local Includes
 #include "startpage.h"
-
+#include "constants.h"
 
 // Qt Includes
 #include <QGridLayout>
@@ -9,13 +9,15 @@
 
 StartPage::StartPage(QWidget* parent) : QWidget(parent)
 {
-	auto startPageLay = new QGridLayout(this);
+	auto centerTextLay = new QVBoxLayout(this);
+	auto title = new QLabel("<span style=\"color:#f8fcff;font-size: 60px;font-weight: bold;\">Code<span style=\"color: #4FACF7;\">Speed</span></span>", this);
+	auto subTitle = new QLabel("<span style=\"color:#f8fcff;font-size: 22px;font-weight: bold;\">How fast can <span style=\"color: "+COLOR_SECONDARY+";\">YOU</span> code?</span>", this);
 
-	auto startPageText = new QLabel("CodeSpeed", this);
-	startPageText->setAlignment(Qt::AlignCenter);
+	title->setAlignment(Qt::AlignCenter);
+	subTitle->setAlignment(Qt::AlignCenter);
+	centerTextLay->addWidget(title);
+	centerTextLay->addWidget(subTitle);
+	centerTextLay->setAlignment(Qt::AlignCenter);
 
-	startPageLay->addWidget(startPageText, 0, 0);
-	
-
-	setLayout(startPageLay);
+	setLayout(centerTextLay);
 }

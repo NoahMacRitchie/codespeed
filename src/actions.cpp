@@ -4,8 +4,6 @@ NavStartPageAction::NavStartPageAction(MainWindow& mainWindow, QWidget* parent) 
 {
 	setText("Home");
 	setIcon(QIcon("../res/img/home_icon.svg"));
-	//setShortcuts(QKeySequence::Open);
-	//setStatusTip(tr("Open an existing file"));
 	QObject::connect(this, &QAction::triggered, this, &NavStartPageAction::navToStart);
 }
 
@@ -17,11 +15,21 @@ NavCodePageAction::NavCodePageAction(MainWindow& mainWindow, QWidget* parent) : 
 {
 	setText("Code");
 	setIcon(QIcon("../res/img/code_icon.svg"));
-	//setShortcuts(QKeySequence::Open);
-	//setStatusTip(tr("Open an existing file"));
 	QObject::connect(this, &QAction::triggered, this, &NavCodePageAction::navToCode);
 }
 
 void NavCodePageAction::navToCode() {
 	mainWindow_->navToCode();
+}
+
+NavStatsPageAction::NavStatsPageAction(MainWindow& mainWindow, QWidget* parent) : mainWindow_(&mainWindow)
+{
+	setText("Statistics");
+	setIcon(QIcon("../res/img/stats_icon.svg"));
+	QObject::connect(this, &QAction::triggered, this, &NavStatsPageAction::navToStats);
+}
+
+void NavStatsPageAction::navToStats() {
+
+	mainWindow_->navToStats();
 }
